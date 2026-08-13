@@ -1,0 +1,28 @@
+[project]
+name = "ai_portfolio_backend"
+version = "0.1.0"
+description = "FastAPI backend for the AI Portfolio Assistant"
+readme = "README.md"
+authors = [
+    { name = "Krishna", email = "info.tech.krishnajha2004@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-dotenv>=1.0.0",
+    "sentence-transformers>=2.2.2",
+    "faiss-cpu>=1.7.4",
+    "qdrant-client>=1.6.0",
+    "pypdf>=4.0.0",
+    "python-docx>=0.9.0",
+    "requests>=2.31.0",
+    "python-multipart>=0.0.6"
+]
+
+[project.scripts]
+run-backend = "app.cli:main"
+
+[build-system]
+requires = ["setuptools>=67.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
