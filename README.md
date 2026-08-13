@@ -69,7 +69,7 @@ copy .env.example .env
 Required variables:
 
 - `GROQ_API_KEY`
-- `GROQ_MODEL` (`qwen/qwen3.6-27b`)
+- `GROQ_MODEL` (`openai/gpt-oss-120b`)
 - `LLM_PROVIDER` (`groq`, `gemini`, or `ollama`)
 - `QDRANT_URL`
 - `QDRANT_API_KEY`
