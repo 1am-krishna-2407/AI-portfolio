@@ -76,10 +76,10 @@ class EmbeddingStore:
         self.embeddings_dir = settings.embeddings_dir
         self.index_path = settings.vector_index_path
         self.metadata_path = settings.metadata_path
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
+        self._model: SentenceTransformer | None = None
         self.qdrant_client: QdrantClient | None = None
         self.collection_name = settings.qdrant_collection
-        self.dimension = self.model.get_embedding_dimension()
+        self.dimension = 384  # all-MiniLM-L6-v2 dimension is always 384
         self.index = None
         self.metadata: list[dict[str, Any]] = self._load_metadata()
 
@@ -116,7 +116,7 @@ class EmbeddingStore:
             except Exception:
                 pass
 
-        dim = self.model.get_embedding_dimension()
+        dim = self.dimension
         base_index = faiss.IndexFlatIP(dim)
         return faiss.IndexIDMap(base_index)
 
@@ -130,6 +130,12 @@ class EmbeddingStore:
 
     def _save_metadata(self) -> None:
         self.metadata_path.write_text(json.dumps(self.metadata, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    @property
+    def model(self) -> SentenceTransformer:
+        if self._model is None:
+            self._model = SentenceTransformer("all-MiniLM-L6-v2")
+        return self._model
 
     def _embed_texts(self, texts: list[str]) -> np.ndarray:
         embeddings = self.model.encode(texts, convert_to_numpy=True, normalize_embeddings=True)
